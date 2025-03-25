@@ -107,7 +107,7 @@ function App() {
         {/* <div className="absolute inset-0 floating-grid parallax-bg" ></div> */}
         <div 
     className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-    style={{ backgroundImage: "url('./assets/pics/back.jpeg')" }}
+    style={{ backgroundImage: "url('/assets/pics/back.jpeg')" }}
   ></div>
         {/* <div className="container mx-auto px-4 z-10">
           <motion.div
