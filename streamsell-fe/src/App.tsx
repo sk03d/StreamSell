@@ -104,8 +104,12 @@ function App() {
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Hero Section */}
       <div className="relative min-h-screen flex items-center">
-        <div className="absolute inset-0 floating-grid parallax-bg"></div>
-        <div className="container mx-auto px-4 z-10">
+        {/* <div className="absolute inset-0 floating-grid parallax-bg" ></div> */}
+        <div 
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+    style={{ backgroundImage: "url('./assets/pics/back.jpeg')" }}
+  ></div>
+        {/* <div className="container mx-auto px-4 z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -120,7 +124,7 @@ function App() {
               <Blocks className="w-full h-full text-[hsl(var(--neon-primary))]" />
             </motion.div>
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-glow">
-              StreamsSell
+              StreamSell 24
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-300">
               Revolutionizing Live Travel Commerce with AI & Blockchain
@@ -133,7 +137,50 @@ function App() {
               Join the Future
             </motion.button>
           </motion.div>
-        </div>
+        </div> */}
+        <div className="container mx-auto px-4 z-10 relative">
+      {/* Blur Effect Area */}
+      <div className="absolute inset-0 flex justify-center items-center">
+        <div className="w-[80%] h-[85%] backdrop-blur-sm bg-black/30 rounded-xl mt-[-80px]"></div>
+      </div>
+
+      {/* Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-4xl mx-auto text-center relative z-10"
+      >
+        {/* Rotating Logo */}
+        <motion.div
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="w-24 h-24 mx-auto mb-8"
+        >
+          <Blocks className="w-full h-full text-[hsl(var(--neon-primary))]" />
+        </motion.div>
+
+        {/* Title */}
+        <h1 className="text-6xl md:text-7xl font-bold mb-6 text-glow text-white">
+          StreamSell 24
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-xl md:text-2xl mb-8 text-gray-300">
+          Revolutionizing Live Travel Commerce with AI & Blockchain
+        </p>
+
+        {/* Button */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-[hsl(var(--neon-primary))] text-black font-bold py-3 px-8 rounded-full text-lg neon-border"
+        >
+          Join the Future
+        </motion.button>
+      </motion.div>
+    </div>
+
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
