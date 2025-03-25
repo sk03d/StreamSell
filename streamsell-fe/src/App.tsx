@@ -7,6 +7,8 @@ import {
   Phone, Mail, MapPinned, Github, Linkedin, Twitter
 } from 'lucide-react';
 
+import backimage from '../assets/pics/back.jpeg';
+
 const FeatureCard = ({ icon: Icon, title, description }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -107,7 +109,7 @@ function App() {
         {/* <div className="absolute inset-0 floating-grid parallax-bg" ></div> */}
         <div 
     className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-    style={{ backgroundImage: "url('/assets/pics/back.jpeg')" }}
+    style={{ backgroundImage: `url(${backimage})` }}
   ></div>
         {/* <div className="container mx-auto px-4 z-10">
           <motion.div
