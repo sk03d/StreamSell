@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --neon-primary: 120 100% 50%;
+    --neon-secondary: 280 100% 50%;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px hsl(var(--neon-primary) / 0.5),
+                 0 0 20px hsl(var(--neon-primary) / 0.3);
+  }
+  
+  .neon-border {
+    box-shadow: 0 0 10px hsl(var(--neon-primary) / 0.5),
+                inset 0 0 10px hsl(var(--neon-primary) / 0.3);
+  }
+}
+
+.parallax-bg {
+  background: radial-gradient(circle at center,
+    rgba(16, 16, 32, 0.8) 0%,
+    rgba(8, 8, 16, 0.95) 100%
+  );
+}
+
+.floating-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: float 20s linear infinite;
+}
+
+@keyframes float {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 50px 50px;
+  }
+}
