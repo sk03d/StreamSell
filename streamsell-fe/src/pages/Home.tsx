@@ -9,6 +9,7 @@ import FeatureCard from '../components/sections/FeatureCard';
 import PackageCard from '../components/sections/PackageCard';
 import TestimonialCard from '../components/sections/TestimonialCard';
 import TechLogo from '../components/sections/TechLogo';
+import backimage from './back.jpeg';
 
 const Home = () => {
   const [ref, inView] = useInView({
@@ -23,6 +24,10 @@ const Home = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-gradient-to-b from-black via-gray-900 to-black" 
         >
+          <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{ backgroundImage: `url(${backimage})` }}
+        ></div>
           <div className="absolute inset-0 bg-black/30 backdrop-blur-sm">
           </div>
         </div>
