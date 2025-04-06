@@ -11,7 +11,9 @@
     "start": "vite preview"
   },
   "dependencies": {
+    "@types/axios": "^0.9.36",
     "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.8.4",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",

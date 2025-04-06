@@ -1,7 +1,30 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setError('');
+      setLoading(true);
+      await login(email, password);
+      navigate('/'); // Redirect to home page after successful login
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to login');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <motion.div
@@ -25,7 +48,16 @@ const Login = () => {
             <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
             <p className="text-gray-400">Sign in to your account to continue</p>
           </div>
-          <form className="space-y-6">
+          {error && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded text-red-500 text-sm"
+            >
+              {error}
+            </motion.div>
+          )}
+          <form onSubmit={handleSubmit}>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -40,8 +72,11 @@ const Login = () => {
                 </div>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-black/30 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-[hsl(var(--neon-primary))] focus:ring-1 focus:ring-[hsl(var(--neon-primary))] transition-all duration-300"
                   placeholder="Enter your email"
+                  required
                 />
               </div>
             </motion.div>
@@ -59,8 +94,11 @@ const Login = () => {
                 </div>
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-black/30 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-[hsl(var(--neon-primary))] focus:ring-1 focus:ring-[hsl(var(--neon-primary))] transition-all duration-300"
                   placeholder="Enter your password"
+                  required
                 />
               </div>
             </motion.div>
@@ -88,9 +126,10 @@ const Login = () => {
             >
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[hsl(var(--neon-primary))] text-black font-bold py-3 px-4 rounded-lg hover:bg-[hsl(var(--neon-secondary))] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--neon-primary))]"
               >
-                Sign In
+                {loading ? 'Signing in...' : 'Sign In'}
               </button>
             </motion.div>
           </form>

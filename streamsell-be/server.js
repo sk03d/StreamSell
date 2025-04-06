@@ -1,53 +1,31 @@
-var express=require("express");
-var cors=require("cors");
-var env=require("dotenv");
-const pg = require('pg');
+var express = require("express");
+var cors = require("cors");
+var env = require("dotenv");
 const session = require("express-session");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const fs = require('fs');
-const path = require('path');
 
-
-var app =express();
-
-app.use(express.json());
-
-app.use(require("cors")({ origin: process.env.CLIENT_URL, credentials: true }));
-
+// Load environment variables
 env.config();
 
-// Read the CA certificate from .pem file
-const caPem = fs.readFileSync(path.join(__dirname, 'certs', 'ca.pem')).toString();
+// Initialize express app
+var app = express();
 
-const config = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    ssl: {
-        rejectUnauthorized: true,
-        ca: caPem,
-        sslmode: process.env.DB_SSL_MODE
-    },
-    max: process.env.DB_CONNECTION_LIMIT // connection pool limit
-};
+// Middleware
+app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true
+}));
 
-app.listen(2025,()=>{
-    console.log("Server Started");
-})
+// Import routes
+const userRoutes = require('./routes/user.routes');
 
-const client = new pg.Client(config);
+// Use routes
+app.use('/api/users', userRoutes);
 
-client.connect(function (err) {
-    if (err) throw err;
-    client.query("SELECT VERSION()", [], function (err, result) {
-        if (err) throw err;
-        console.log(result.rows[0].version);
-        client.end(function (err) {
-            if (err) throw err;
-        });
-    });
+// Start server
+app.listen(2025, () => {
+    console.log("Server Started on port 2025");
 });
 
