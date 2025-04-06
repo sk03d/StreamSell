@@ -132,7 +132,7 @@ function App() {
 
             {/* Title */}
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-glow text-white">
-              StreamSell 24
+              StreamSell24
             </h1>
 
             {/* Subtitle */}
