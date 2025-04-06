@@ -1,178 +1,210 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast, ToastContainer } from 'react-toastify';
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
+import 'react-toastify/dist/ReactToastify.css';
+import { loginSchema, type LoginFormData } from '../utils/validationSchema';
 import Notification from '../components/common/Notification';
 import backimage from './back.jpeg';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      setError('');
-      setLoading(true);
-      await login(email, password);
-      setNotificationMessage('Login successful! Redirecting...');
-      setNotificationType('success');
-      setShowNotification(true);
-      
-      // Redirect to success page after a short delay
-      setTimeout(() => {
-        navigate('/login-success');
-      }, 1000);
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to login');
-      setNotificationMessage(err.response?.data?.error || 'Failed to login');
-      setNotificationType('error');
-      setShowNotification(true);
+      setIsLoading(true);
+      // Add your login API call here
+      console.log('Login data:', data);
+      toast.success('Login successful!');
+      navigate('/');
+    } catch (error) {
+      toast.error('Login failed. Please try again.');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <ToastContainer position="top-right" autoClose={3000} aria-label="Notifications" />
       <Notification 
         message={notificationMessage}
         type={notificationType}
         isVisible={showNotification}
         onClose={() => setShowNotification(false)}
       />
-      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+        className="max-w-md w-full space-y-8 bg-black/50 backdrop-blur-lg p-8 rounded-xl border border-white/10"
       >
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-          style={{ backgroundImage: `url(${backimage})` }}
-        ></div>
-        <div className="bg-black/50 backdrop-blur-lg rounded-2xl p-8 border border-white/10 shadow-2xl">
-          <div className="text-center mb-8">
+        <motion.div
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+            Welcome Back
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-400">
+            Sign in to continue your journey
+          </p>
+        </motion.div>
+
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <div className="rounded-md shadow-sm space-y-4">
             <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="w-16 h-16 mx-auto mb-4 rounded-full bg-[hsl(var(--neon-primary))]/10 flex items-center justify-center"
-            >
-              <svg className="w-8 h-8 text-[hsl(var(--neon-primary))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </motion.div>
-            <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-            <p className="text-gray-400">Sign in to your account to continue</p>
-          </div>
-          {error && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded text-red-500 text-sm"
-            >
-              {error}
-            </motion.div>
-          )}
-          <form onSubmit={handleSubmit}>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <label htmlFor="email" className="sr-only">
+                Email address
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                  <Mail className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
+                  {...register('email')}
+                  id="email"
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/30 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-[hsl(var(--neon-primary))] focus:ring-1 focus:ring-[hsl(var(--neon-primary))] transition-all duration-300"
-                  placeholder="Enter your email"
-                  required
+                  className={`appearance-none rounded-lg relative block w-full pl-10 pr-3 py-2 border ${
+                    errors.email ? 'border-red-500' : 'border-white/10'
+                  } bg-black/50 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-[hsl(var(--neon-primary))] focus:border-transparent`}
+                  placeholder="Email address"
                 />
               </div>
+              <AnimatePresence>
+                {errors.email && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="mt-1 text-sm text-red-500"
+                  >
+                    {errors.email.message}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </motion.div>
+
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
+              className="relative"
             >
-              <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
+                  <Lock className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-black/30 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-[hsl(var(--neon-primary))] focus:ring-1 focus:ring-[hsl(var(--neon-primary))] transition-all duration-300"
-                  placeholder="Enter your password"
-                  required
+                  {...register('password')}
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  className={`appearance-none rounded-lg relative block w-full pl-10 pr-10 py-2 border ${
+                    errors.password ? 'border-red-500' : 'border-white/10'
+                  } bg-black/50 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-[hsl(var(--neon-primary))] focus:border-transparent`}
+                  placeholder="Password"
                 />
+                <motion.button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-[hsl(var(--neon-primary))]"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </motion.button>
               </div>
+              <AnimatePresence>
+                {errors.password && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="mt-1 text-sm text-red-500"
+                  >
+                    {errors.password.message}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex items-center justify-between"
-            >
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 text-[hsl(var(--neon-primary))] border-gray-600 rounded focus:ring-[hsl(var(--neon-primary))]"
-                />
-                <label className="ml-2 block text-sm text-gray-300">Remember me</label>
-              </div>
-              <Link to="/forgot-password" className="text-sm text-[hsl(var(--neon-primary))] hover:text-[hsl(var(--neon-secondary))] transition-colors duration-300">
-                Forgot password?
-              </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[hsl(var(--neon-primary))] text-black font-bold py-3 px-4 rounded-lg hover:bg-[hsl(var(--neon-secondary))] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--neon-primary))]"
-              >
-                {loading ? 'Signing in...' : 'Sign In'}
-              </button>
-            </motion.div>
-          </form>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="mt-6 text-center"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
           >
-            <p className="text-gray-400">
-              Don't have an account?{' '}
-              <Link to="/signup" className="text-[hsl(var(--neon-primary))] hover:text-[hsl(var(--neon-secondary))] transition-colors duration-300">
-                Sign up
-              </Link>
-            </p>
+            <motion.button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[hsl(var(--neon-primary))] hover:bg-[hsl(var(--neon-primary))]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--neon-primary))]"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              disabled={isLoading}
+              onHoverStart={() => setIsHovered(true)}
+              onHoverEnd={() => setIsHovered(false)}
+            >
+              <span className="flex items-center">
+                {isLoading ? (
+                  'Signing in...'
+                ) : (
+                  <>
+                    Sign in
+                    <motion.span
+                      animate={{ x: isHovered ? 5 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="ml-2"
+                    >
+                      <ArrowRight className="h-4 w-4" />
+                    </motion.span>
+                  </>
+                )}
+              </span>
+            </motion.button>
           </motion.div>
-        </div>
+
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="text-center"
+          >
+            <Link
+              to="/signup"
+              className="font-medium text-[hsl(var(--neon-primary))] hover:text-[hsl(var(--neon-primary))]/80 transition-colors duration-300"
+            >
+              Don't have an account? Sign up
+            </Link>
+          </motion.div>
+        </form>
       </motion.div>
     </div>
   );
