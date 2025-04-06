@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Notification from '../components/common/Notification';
 import backimage from './back.jpeg';
 
 const Login = () => {
@@ -11,6 +12,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,9 +22,19 @@ const Login = () => {
       setError('');
       setLoading(true);
       await login(email, password);
-      navigate('/'); // Redirect to home page after successful login
+      setNotificationMessage('Login successful! Redirecting...');
+      setNotificationType('success');
+      setShowNotification(true);
+      
+      // Redirect to success page after a short delay
+      setTimeout(() => {
+        navigate('/login-success');
+      }, 1000);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to login');
+      setNotificationMessage(err.response?.data?.error || 'Failed to login');
+      setNotificationType('error');
+      setShowNotification(true);
     } finally {
       setLoading(false);
     }
@@ -28,6 +42,13 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
+      <Notification 
+        message={notificationMessage}
+        type={notificationType}
+        isVisible={showNotification}
+        onClose={() => setShowNotification(false)}
+      />
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

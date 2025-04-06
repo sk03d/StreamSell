@@ -4,6 +4,7 @@ import Layout from './components/layout/Layout';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import LoginSuccess from './pages/LoginSuccess';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/login-success" element={<LoginSuccess />} />
           </Routes>
         </Layout>
       </Router>
