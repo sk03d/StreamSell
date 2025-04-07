@@ -41,6 +41,10 @@ const Signup = () => {
     return (
         <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <ToastContainer position="top-right" autoClose={3000} aria-label="Notifications" />
+            <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{ backgroundImage: `url(${backimage})` }}
+        ></div>
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

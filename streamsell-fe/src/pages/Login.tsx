@@ -50,6 +50,10 @@ const Login = () => {
         isVisible={showNotification}
         onClose={() => setShowNotification(false)}
       />
+     <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{ backgroundImage: `url(${backimage})` }}
+        ></div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
