@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
@@ -7,21 +7,43 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const location = useLocation();
 
   const features = [
     {
       title: 'Travel & Tourism',
-      items: ['AR/VR Travel Previews', 'Blockchain Packages', 'Location Deals']
+      items: [
+        { name: 'AR/VR Travel Previews', path: '/ar-vr-travel' },
+        { name: 'Blockchain Packages', path: '/blockchain-packages' },
+        { name: 'Location Deals', path: '/location-deals' }
+      ]
     },
     {
       title: 'Live Selling',
-      items: ['Interactive Streams', 'Real-time Chat', 'Virtual Tours']
+      items: [
+        { name: 'Interactive Streams', path: '/interactive-streams' },
+        { name: 'Real-time Chat', path: '/real-time-chat' },
+        { name: 'Virtual Tours', path: '/virtual-tours' }
+      ]
     },
     {
       title: 'Advanced Tech',
-      items: ['Web3 Integration', 'AI Personalization', 'Quantum Computing', 'IoT Features']
+      items: [
+        { name: 'Web3 Integration', path: '/web3-integration' },
+        { name: 'AI Personalization', path: '/ai-personalization' },
+        { name: 'Quantum Computing', path: '/quantum-computing' },
+        { name: 'IoT Features', path: '/iot-features' }
+      ]
     }
   ];
+
+  const isActivePath = (path: string) => {
+    return location.pathname === path;
+  };
+
+  const isActiveSection = (sectionItems: { path: string }[]) => {
+    return sectionItems.some(item => isActivePath(item.path));
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-lg border-b border-white/10">
@@ -51,14 +73,18 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden sm:flex sm:space-x-8">
             {features.map((feature, index) => (
-              <div 
+              <div
                 key={index} 
                 className="relative group"
                 onMouseEnter={() => setHoveredItem(feature.title)}
                 onMouseLeave={() => setHoveredItem(null)}
               >
                 <motion.button
-                  className="text-gray-300 hover:text-[hsl(var(--neon-primary))] px-3 py-2 rounded-md text-sm font-medium relative overflow-hidden"
+                  className={`px-3 py-2 rounded-md text-sm font-medium relative overflow-hidden ${
+                    isActiveSection(feature.items)
+                      ? 'text-[hsl(var(--neon-primary))]'
+                      : 'text-gray-300 hover:text-[hsl(var(--neon-primary))]'
+                  }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -80,17 +106,21 @@ const Navbar = () => {
                       className="absolute left-0 mt-2 w-48 bg-black/70 backdrop-blur-lg rounded-md shadow-lg border border-white/10 z-50"
                     >
                       <div className="py-1">
-                        {feature.items.map((item, itemIndex) => (
+                        {feature.items.map((item) => (
                           <motion.div
-                            key={itemIndex}
+                            key={item.name}
                             whileHover={{ x: 5 }}
                             transition={{ duration: 0.2 }}
                           >
                             <Link
-                              to={`/${feature.title.toLowerCase().replace(/\s+/g, '-')}/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                              className="block px-4 py-2 text-sm text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5 transition-all duration-200"
+                              to={item.path}
+                              className={`block px-4 py-2 text-sm transition-all duration-200 ${
+                                isActivePath(item.path)
+                                  ? 'text-[hsl(var(--neon-primary))] bg-white/5'
+                                  : 'text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5'
+                              }`}
                             >
-                              {item}
+                              {item.name}
                             </Link>
                           </motion.div>
                         ))}
@@ -111,7 +141,11 @@ const Navbar = () => {
             >
               <button
                 onClick={() => setIsAuthOpen(!isAuthOpen)}
-                className="flex items-center text-gray-300 hover:text-[hsl(var(--neon-primary))] px-3 py-2 rounded-md text-sm font-medium relative overflow-hidden"
+                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium relative overflow-hidden ${
+                  isActivePath('/login') || isActivePath('/signup')
+                    ? 'text-[hsl(var(--neon-primary))]'
+                    : 'text-gray-300 hover:text-[hsl(var(--neon-primary))]'
+                }`}
               >
                 <span className="relative z-10">Account</span>
                 <motion.div
@@ -140,7 +174,11 @@ const Navbar = () => {
                       <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                         <Link
                           to="/login"
-                          className="block px-4 py-2 text-sm text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5 transition-all duration-200"
+                          className={`block px-4 py-2 text-sm transition-all duration-200 ${
+                            isActivePath('/login')
+                              ? 'text-[hsl(var(--neon-primary))] bg-white/5'
+                              : 'text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5'
+                          }`}
                         >
                           Login
                         </Link>
@@ -148,7 +186,11 @@ const Navbar = () => {
                       <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                         <Link
                           to="/signup"
-                          className="block px-4 py-2 text-sm text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5 transition-all duration-200"
+                          className={`block px-4 py-2 text-sm transition-all duration-200 ${
+                            isActivePath('/signup')
+                              ? 'text-[hsl(var(--neon-primary))] bg-white/5'
+                              : 'text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5'
+                          }`}
                         >
                           Sign Up
                         </Link>
@@ -187,38 +229,42 @@ const Navbar = () => {
             <div className="px-2 pt-2 pb-3 space-y-1">
               {features.map((feature, index) => (
                 <div key={index} className="space-y-1">
-                  <button
-                    onClick={() => setHoveredItem(hoveredItem === feature.title ? null : feature.title)}
-                    className="flex items-center w-full text-left px-3 py-2 text-gray-300 hover:text-[hsl(var(--neon-primary))]"
-                  >
+                  <div className="text-gray-400 px-3 py-2 text-sm font-medium">
                     {feature.title}
-                    <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  {hoveredItem === feature.title && (
-                    <div className="pl-4 space-y-1">
-                      {feature.items.map((item, itemIndex) => (
-                        <Link
-                          key={itemIndex}
-                          to={`/${feature.title.toLowerCase().replace(/\s+/g, '-')}/${item.toLowerCase().replace(/\s+/g, '-')}`}
-                          className="block px-3 py-2 text-sm text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5"
-                        >
-                          {item}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                  </div>
+                  {feature.items.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      className={`block px-3 py-2 text-sm transition-all duration-200 ${
+                        isActivePath(item.path)
+                          ? 'text-[hsl(var(--neon-primary))] bg-white/5'
+                          : 'text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
                 </div>
               ))}
-              <div className="pt-4 pb-3 border-t border-white/10">
+              <div className="border-t border-white/10 pt-2">
                 <Link
                   to="/login"
-                  className="block px-3 py-2 text-gray-300 hover:text-[hsl(var(--neon-primary))]"
+                  className={`block px-3 py-2 text-sm transition-all duration-200 ${
+                    isActivePath('/login')
+                      ? 'text-[hsl(var(--neon-primary))] bg-white/5'
+                      : 'text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5'
+                  }`}
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="block px-3 py-2 text-gray-300 hover:text-[hsl(var(--neon-primary))]"
+                  className={`block px-3 py-2 text-sm transition-all duration-200 ${
+                    isActivePath('/signup')
+                      ? 'text-[hsl(var(--neon-primary))] bg-white/5'
+                      : 'text-gray-300 hover:text-[hsl(var(--neon-primary))] hover:bg-white/5'
+                  }`}
                 >
                   Sign Up
                 </Link>
