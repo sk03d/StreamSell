@@ -67,153 +67,123 @@ const Dashboard = () => {
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-8 -mt-24">
         <div className="grid grid-cols-12 gap-6">
-          {/* Quick actions */}
-          <div className="col-span-12 lg:col-span-8 grid grid-cols-2 gap-3">
-            {[
-              { 
-                icon: <Video className="w-5 h-5 text-[#00FF00]" />, 
-                title: "Go Live with IVS", 
-                description: "Launch a new live stream with AWS Interactive Video Service.",
-                bgColor: "bg-[#00FF00]/5",
-                borderColor: "border-[#00FF00]/10",
-                hoverEffect: "hover:border-[#00FF00]/30 hover:bg-[#00FF00]/8"
-              },
-              { 
-                icon: <MapPin className="w-5 h-5 text-[#954CE9]" />, 
-                title: "Set Geofence Campaign", 
-                description: "Create a geo-targeted campaign for tourists in specific locations.",
-                bgColor: "bg-[#954CE9]/5",
-                borderColor: "border-[#954CE9]/10",
-                hoverEffect: "hover:border-[#954CE9]/30 hover:bg-[#954CE9]/8"
-              },
-              { 
-                icon: <Wallet className="w-5 h-5 text-[#00FF00]" />, 
-                title: "Connect Wallet / Payment", 
-                description: "Set up your payment methods and connect crypto wallets.",
-                bgColor: "bg-[#00FF00]/5",
-                borderColor: "border-[#00FF00]/10",
-                hoverEffect: "hover:border-[#00FF00]/30 hover:bg-[#00FF00]/8"
-              },
-              { 
-                icon: <Store className="w-5 h-5 text-[#954CE9]" />, 
-                title: "NFT Storefront", 
-                description: "Create and manage NFTs for your travel experiences.",
-                bgColor: "bg-[#954CE9]/5",
-                borderColor: "border-[#954CE9]/10",
-                hoverEffect: "hover:border-[#954CE9]/30 hover:bg-[#954CE9]/8"
-              }
-            ].map((card, index) => (
-              <motion.div
-                key={index}
-                className={`p-3 rounded-lg border ${card.borderColor} ${card.bgColor} ${card.hoverEffect} backdrop-blur-sm relative transition-all duration-300 min-h-[120px]`}
-                variants={cardVariants}
-                whileHover="hover"
-                whileTap="tap"
-                onHoverStart={() => setActiveCard(index)}
-                onHoverEnd={() => setActiveCard(null)}
-              >
-                <div className="flex flex-col h-full">
-                  <div className={`p-1.5 rounded-lg ${card.bgColor} w-fit`}>
-                    {card.icon}
+          {/* Quick Actions Section */}
+          <div className="col-span-12 lg:col-span-8">
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { 
+                  icon: <Video className="w-5 h-5 text-[#00FF00]" />, 
+                  title: "Go Live with IVS", 
+                  description: "Launch a new live stream with AWS Interactive Video Service.",
+                  bgColor: "bg-[#00FF00]/5",
+                  borderColor: "border-[#00FF00]/10",
+                  hoverEffect: "hover:border-[#00FF00]/30 hover:bg-[#00FF00]/8"
+                },
+                { 
+                  icon: <MapPin className="w-5 h-5 text-[#954CE9]" />, 
+                  title: "Set Geofence Campaign", 
+                  description: "Create a geo-targeted campaign for tourists in specific locations.",
+                  bgColor: "bg-[#954CE9]/5",
+                  borderColor: "border-[#954CE9]/10",
+                  hoverEffect: "hover:border-[#954CE9]/30 hover:bg-[#954CE9]/8"
+                },
+                { 
+                  icon: <Wallet className="w-5 h-5 text-[#00FF00]" />, 
+                  title: "Connect Wallet / Payment", 
+                  description: "Set up your payment methods and connect crypto wallets.",
+                  bgColor: "bg-[#00FF00]/5",
+                  borderColor: "border-[#00FF00]/10",
+                  hoverEffect: "hover:border-[#00FF00]/30 hover:bg-[#00FF00]/8"
+                },
+                { 
+                  icon: <Store className="w-5 h-5 text-[#954CE9]" />, 
+                  title: "NFT Storefront", 
+                  description: "Create and manage NFTs for your travel experiences.",
+                  bgColor: "bg-[#954CE9]/5",
+                  borderColor: "border-[#954CE9]/10",
+                  hoverEffect: "hover:border-[#954CE9]/30 hover:bg-[#954CE9]/8"
+                }
+              ].map((card, index) => (
+                <motion.div
+                  key={index}
+                  className={`p-4 rounded-lg border ${card.borderColor} ${card.bgColor} ${card.hoverEffect} backdrop-blur-sm relative transition-all duration-300 min-h-[120px]`}
+                  variants={cardVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                  onHoverStart={() => setActiveCard(index)}
+                  onHoverEnd={() => setActiveCard(null)}
+                >
+                  <div className="flex flex-col h-full">
+                    <div className={`p-2 rounded-lg ${card.bgColor} w-fit`}>
+                      {card.icon}
+                    </div>
+                    <h3 className="text-base font-semibold mt-3 text-white">{card.title}</h3>
+                    <p className="text-gray-400 text-sm mt-2 flex-grow line-clamp-2">{card.description}</p>
+                    {activeCard === index && (
+                      <motion.div
+                        className="absolute bottom-4 right-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.7 }}
+                      >
+                        <ChevronRight className="w-4 h-4 text-white" />
+                      </motion.div>
+                    )}
                   </div>
-                  <h3 className="text-base font-semibold mt-2 text-white">{card.title}</h3>
-                  <p className="text-gray-400 text-xs mt-1 flex-grow line-clamp-2">{card.description}</p>
-                  {activeCard === index && (
-                    <motion.div
-                      className="absolute bottom-3 right-3"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 0.7 }}
-                    >
-                      <ChevronRight className="w-4 h-4 text-white" />
-                    </motion.div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          {/* Real-time metrics */}
-          <div className="col-span-12 lg:col-span-4 space-y-6">
-            <div className="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6">
+          {/* Metrics Section */}
+          <div className="col-span-12 lg:col-span-4">
+            <div className="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6 h-full">
               <h2 className="text-lg font-semibold mb-6">Real-time Metrics</h2>
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Users className="w-5 h-5 text-[hsl(var(--neon-primary))]" />
-                      <span className="text-gray-400 text-sm">Viewers Online</span>
-                    </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-semibold">1,284</span>
-                      <span className="text-[hsl(var(--neon-primary))] text-sm">+12.5%</span>
-                    </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-5 h-5 text-[hsl(var(--neon-primary))]" />
+                    <span className="text-gray-400 text-sm">Viewers Online</span>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Video className="w-5 h-5 text-[hsl(var(--neon-secondary))]" />
-                      <span className="text-gray-400 text-sm">Active Streams</span>
-                    </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-semibold">16</span>
-                      <span className="text-[hsl(var(--neon-secondary))] text-sm">+3</span>
-                    </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-semibold">1,284</span>
+                    <span className="text-[hsl(var(--neon-primary))] text-sm">+12.5%</span>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Activity className="w-5 h-5 text-[hsl(var(--neon-primary))]" />
-                      <span className="text-gray-400 text-sm">NFTs Sold</span>
-                    </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-semibold">23</span>
-                      <span className="text-red-400 text-sm">-2.8%</span>
-                    </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Video className="w-5 h-5 text-[hsl(var(--neon-secondary))]" />
+                    <span className="text-gray-400 text-sm">Active Streams</span>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-[hsl(var(--neon-secondary))]" />
-                      <span className="text-gray-400 text-sm">Geo-Triggers</span>
-                    </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-semibold">89</span>
-                      <span className="text-[hsl(var(--neon-secondary))] text-sm">+41.2%</span>
-                    </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-semibold">16</span>
+                    <span className="text-[hsl(var(--neon-secondary))] text-sm">+3</span>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div className="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold">Recent Activity</h2>
-                <button className="text-[hsl(var(--neon-primary))] text-sm hover:text-[hsl(var(--neon-primary))]/80">
-                  View All
-                </button>
-              </div>
-              <div className="space-y-4">
-                {[
-                  { title: "Live Stream Started", description: "Tokyo Night Walk tour stream started", time: "Just now" },
-                  { title: "Geo-Campaign Triggered", description: "38 viewers in Shibuya Crossing zone", time: "5 min ago" },
-                  { title: "NFT Sold", description: "Kyoto Temples Collection sold for 0.8 ETH", time: "25 min ago" },
-                  { title: "Payment Received", description: "$350 payment from Tour Experience booking", time: "1 hour ago" },
-                  { title: "Stream Ended", description: "Venice Canal tour ended with 567 viewers", time: "2 hours ago" }
-                ].map((activity, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className={`w-2 h-2 rounded-full mt-2 ${index % 2 === 0 ? 'bg-[hsl(var(--neon-primary))]' : 'bg-[hsl(var(--neon-secondary))]'}`} />
-                    <div>
-                      <p className="text-sm font-medium">{activity.title}</p>
-                      <p className="text-gray-400 text-sm">{activity.description}</p>
-                      <p className="text-gray-500 text-xs mt-1">{activity.time}</p>
-                    </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-[hsl(var(--neon-primary))]" />
+                    <span className="text-gray-400 text-sm">NFTs Sold</span>
                   </div>
-                ))}
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-semibold">23</span>
+                    <span className="text-red-400 text-sm">-2.8%</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-[hsl(var(--neon-secondary))]" />
+                    <span className="text-gray-400 text-sm">Geo-Triggers</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-semibold">89</span>
+                    <span className="text-[hsl(var(--neon-secondary))] text-sm">+41.2%</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Analytics Overview */}
+          {/* Analytics Section */}
           <div className="col-span-12 lg:col-span-8">
             <div className="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6">
               <h2 className="text-lg font-semibold mb-6">Analytics Overview</h2>
@@ -247,27 +217,29 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Integrations Status */}
+          {/* Recent Activity Section */}
           <div className="col-span-12 lg:col-span-4">
-            <div className="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6">
+            <div className="bg-black/20 backdrop-blur-sm rounded-xl border border-white/5 p-6 h-full">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold">Integrations Status</h2>
+                <h2 className="text-lg font-semibold">Recent Activity</h2>
                 <button className="text-[hsl(var(--neon-primary))] text-sm hover:text-[hsl(var(--neon-primary))]/80">
-                  Manage
+                  View All
                 </button>
               </div>
               <div className="space-y-4">
                 {[
-                  "AWS IVS",
-                  "Payment Gateway",
-                  "NFT Marketplace",
-                  "Geofencing API"
-                ].map((service, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm">{service}</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[hsl(var(--neon-primary))]" />
-                      <span className="text-gray-400 text-sm">Connected</span>
+                  { title: "Live Stream Started", description: "Tokyo Night Walk tour stream started", time: "Just now" },
+                  { title: "Geo-Campaign Triggered", description: "38 viewers in Shibuya Crossing zone", time: "5 min ago" },
+                  { title: "NFT Sold", description: "Kyoto Temples Collection sold for 0.8 ETH", time: "25 min ago" },
+                  { title: "Payment Received", description: "$350 payment from Tour Experience booking", time: "1 hour ago" },
+                  { title: "Stream Ended", description: "Venice Canal tour ended with 567 viewers", time: "2 hours ago" }
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <div className={`w-2 h-2 rounded-full mt-2 ${index % 2 === 0 ? 'bg-[hsl(var(--neon-primary))]' : 'bg-[hsl(var(--neon-secondary))]'}`} />
+                    <div>
+                      <p className="text-sm font-medium">{activity.title}</p>
+                      <p className="text-gray-400 text-sm">{activity.description}</p>
+                      <p className="text-gray-500 text-xs mt-1">{activity.time}</p>
                     </div>
                   </div>
                 ))}
