@@ -8,9 +8,11 @@ import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from 'lucide-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { signupSchema, type SignupFormData } from '../utils/validationSchema';
 import backimage from './back.jpeg';
+import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
     const navigate = useNavigate();
+    const { signup } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -27,12 +29,15 @@ const Signup = () => {
     const onSubmit = async (data: SignupFormData) => {
         try {
             setIsLoading(true);
-            // Add your signup API call here
-            console.log('Signup data:', data);
+            await signup(data.username, data.email, data.password);
             toast.success('Account created successfully!');
-            navigate('/login');
-        } catch (error) {
-            toast.error('Signup failed. Please try again.');
+            // Redirect after a short delay to show the success message
+            setTimeout(() => {
+                navigate('/login');
+            }, 1000);
+        } catch (error: any) {
+            console.error('Signup error:', error);
+            toast.error(error.message || 'Signup failed. Please try again.');
         } finally {
             setIsLoading(false);
         }

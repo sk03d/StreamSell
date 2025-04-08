@@ -11,6 +11,8 @@ import LocationDeals from './pages/LocationDeals';
 import InteractiveStreams from './pages/InteractiveStreams';
 import RealTimeChat from './pages/RealTimeChat';
 import VirtualTours from './pages/VirtualTours';
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/layout/Navbar';
 
@@ -29,6 +31,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+<<<<<<< HEAD
         <ScrollToTop />
         <div className="min-h-screen bg-black text-white">
           <Navbar />
@@ -47,6 +50,24 @@ function App() {
             </Routes>
           </Layout>
         </div>
+=======
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login-success" element={<LoginSuccess />} />
+            <Route 
+              path="/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } 
+            />
+          </Routes>
+        </Layout>
+>>>>>>> feature/login-signup
       </Router>
     </AuthProvider>
   );
