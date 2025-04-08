@@ -46,16 +46,7 @@ function App() {
               <Route path="/interactive-streams" element={<InteractiveStreams />} />
               <Route path="/real-time-chat" element={<RealTimeChat />} />
               <Route path="/virtual-tours" element={<VirtualTours />} />
-            </Routes>
-          </Layout>
-        </div>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login-success" element={<LoginSuccess />} />
-            <Route 
+              <Route 
               path="/dashboard" 
               element={
                 <ProtectedRoute>
@@ -63,8 +54,10 @@ function App() {
                 </ProtectedRoute>
               } 
             />
-          </Routes>
-        </Layout>
+            </Routes>
+          </Layout>
+        </div>
+        
       </Router>
     </AuthProvider>
   );

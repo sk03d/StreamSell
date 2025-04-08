@@ -36,9 +36,9 @@ const Login = () => {
       setNotificationType('success');
       setNotificationMessage('Login successful!');
       setShowNotification(true);
-      // Redirect after a short delay to show the success message
+      // Navigate to login success page instead of dashboard
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/login-success');
       }, 1000);
     } catch (error: any) {
       console.error('Login error:', error);
