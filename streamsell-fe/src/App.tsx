@@ -31,7 +31,6 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-<<<<<<< HEAD
         <ScrollToTop />
         <div className="min-h-screen bg-black text-white">
           <Navbar />
@@ -50,7 +49,6 @@ function App() {
             </Routes>
           </Layout>
         </div>
-=======
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -67,7 +65,6 @@ function App() {
             />
           </Routes>
         </Layout>
->>>>>>> feature/login-signup
       </Router>
     </AuthProvider>
   );
