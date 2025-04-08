@@ -3,14 +3,14 @@ require('dotenv').config();
 const dbConfig = require('../config/database');
 
 // Log full database configuration (except password)
-console.log('Full database configuration:', {
-    ...dbConfig,
-    password: '******', // Hide password in logs
-    ssl: dbConfig.ssl ? {
-        ...dbConfig.ssl,
-        ca: dbConfig.ssl.ca ? 'Loaded' : 'Missing'
-    } : 'Not configured'
-});
+// console.log('Full database configuration:', {
+//     ...dbConfig,
+//     password: '******', // Hide password in logs
+//     ssl: dbConfig.ssl ? {
+//         ...dbConfig.ssl,
+//         ca: dbConfig.ssl.ca ? 'Loaded' : 'Missing'
+//     } : 'Not configured'
+// });
 
 let pool;
 try {
