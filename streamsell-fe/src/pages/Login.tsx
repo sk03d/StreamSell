@@ -8,10 +8,12 @@ import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginSchema, type LoginFormData } from '../utils/validationSchema';
 import Notification from '../components/common/Notification';
+import { useAuth } from '../context/AuthContext';
 import backimage from './back.jpeg';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
@@ -30,12 +32,19 @@ const Login = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
-      // Add your login API call here
-      console.log('Login data:', data);
-      toast.success('Login successful!');
-      navigate('/');
-    } catch (error) {
-      toast.error('Login failed. Please try again.');
+      await login(data.email, data.password);
+      setNotificationType('success');
+      setNotificationMessage('Login successful!');
+      setShowNotification(true);
+      // Redirect after a short delay to show the success message
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000);
+    } catch (error: any) {
+      console.error('Login error:', error);
+      setNotificationType('error');
+      setNotificationMessage(error.message || 'Login failed. Please try again.');
+      setShowNotification(true);
     } finally {
       setIsLoading(false);
     }

@@ -26,14 +26,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const user = authService.getCurrentUser();
-        setUser(user?.user || null);
-        setLoading(false);
+        try {
+            const savedUser = authService.getCurrentUser();
+            if (savedUser && savedUser.user && savedUser.token) {
+                setUser(savedUser.user);
+            } else {
+                setUser(null);
+            }
+        } catch (error) {
+            console.error('Error initializing auth state:', error);
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
     const login = async (email: string, password: string) => {
-        const response = await authService.login({ email, password });
-        setUser(response.user);
+        try {
+            const response = await authService.login({ email, password });
+            if (response.user && response.token) {
+                setUser(response.user);
+                localStorage.setItem('user', JSON.stringify(response)); // Store both user and token
+                return response;
+            } else {
+                throw new Error('Invalid response from server');
+            }
+        } catch (error) {
+            console.error('Login error in context:', error);
+            throw error;
+        }
     };
 
     const signup = async (username: string, email: string, password: string) => {
