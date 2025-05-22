@@ -6,8 +6,8 @@ interface TechLogoProps {
 }
 
 const TechLogo = ({ icon: Icon, name }: TechLogoProps) => (
-  <div className="flex flex-col items-center gap-2 p-4">
-    <div className="w-12 h-12 text-[hsl(var(--neon-primary))]">
+  <div className="flex flex-col items-center gap-2 p-4 hover:shadow-glow transition-all duration-300">
+    <div className="w-12 h-12 text-primary-400">
       <Icon className="w-full h-full" />
     </div>
     <span className="text-sm text-gray-300">{name}</span>

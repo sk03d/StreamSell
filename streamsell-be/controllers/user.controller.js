@@ -1,11 +1,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const pool = require('../db/connection');
 
 class UserController {
+    constructor(pool) {
+        this.pool = pool;
+    }
+
     // Sign up new user
     async signup(req, res) {
-        const { username, email, password } = req.body;
+        const { username, email, password, userType } = req.body;
 
         try {
             // Validate input
@@ -14,7 +17,7 @@ class UserController {
             }
 
             // Check if user already exists
-            const userExists = await pool.query(
+            const userExists = await this.pool.query(
                 'SELECT * FROM users WHERE email = $1 OR username = $2',
                 [email, username]
             );
@@ -28,14 +31,18 @@ class UserController {
             const hashedPassword = await bcrypt.hash(password, salt);
 
             // Create new user
-            const newUser = await pool.query(
+            const newUser = await this.pool.query(
                 'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email',
                 [username, email, hashedPassword]
             );
 
             // Generate JWT token
             const token = jwt.sign(
-                { id: newUser.rows[0].id, username: newUser.rows[0].username },
+                { 
+                    id: newUser.rows[0].id, 
+                    username: newUser.rows[0].username,
+                    userType: userType
+                },
                 process.env.JWT_SECRET,
                 { expiresIn: '24h' }
             );
@@ -45,7 +52,8 @@ class UserController {
                 user: {
                     id: newUser.rows[0].id,
                     username: newUser.rows[0].username,
-                    email: newUser.rows[0].email
+                    email: newUser.rows[0].email,
+                    userType: userType
                 },
                 token
             });
@@ -57,7 +65,7 @@ class UserController {
 
     // Login user
     async login(req, res) {
-        const { email, password } = req.body;
+        const { email, password, userType } = req.body;
 
         try {
             // Validate input
@@ -66,7 +74,7 @@ class UserController {
             }
 
             // Find user
-            const user = await pool.query(
+            const user = await this.pool.query(
                 'SELECT * FROM users WHERE email = $1',
                 [email]
             );
@@ -84,7 +92,11 @@ class UserController {
 
             // Generate JWT token
             const token = jwt.sign(
-                { id: user.rows[0].id, username: user.rows[0].username },
+                { 
+                    id: user.rows[0].id, 
+                    username: user.rows[0].username,
+                    userType: userType
+                },
                 process.env.JWT_SECRET,
                 { expiresIn: '24h' }
             );
@@ -94,7 +106,8 @@ class UserController {
                 user: {
                     id: user.rows[0].id,
                     username: user.rows[0].username,
-                    email: user.rows[0].email
+                    email: user.rows[0].email,
+                    userType: userType
                 },
                 token
             });
@@ -107,7 +120,7 @@ class UserController {
     // Get user profile
     async getProfile(req, res) {
         try {
-            const user = await pool.query(
+            const user = await this.pool.query(
                 'SELECT id, username, email, created_at FROM users WHERE id = $1',
                 [req.user.id]
             );
@@ -124,4 +137,4 @@ class UserController {
     }
 }
 
-module.exports = new UserController(); 
+module.exports = UserController; 

@@ -22,13 +22,13 @@ const Home = () => {
       {/* Hero Section */}
       <div className="relative min-h-screen flex items-center">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-gradient-to-b from-black via-gray-900 to-black" 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-gradient-to-b from-dark-100 via-dark-200 to-dark-100" 
         >
           <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-          style={{ backgroundImage: `url(${backimage})` }}
-        ></div>
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm">
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+            style={{ backgroundImage: `url(${backimage})` }}
+          ></div>
+          <div className="absolute inset-0 bg-dark-100/30 backdrop-blur-sm">
           </div>
         </div>
 
@@ -44,10 +44,10 @@ const Home = () => {
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="w-24 h-24 mx-auto mb-8"
             >
-              <Blocks className="w-full h-full text-[hsl(var(--neon-primary))]" />
+              <Blocks className="w-full h-full text-primary-400" />
             </motion.div>
 
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 text-glow text-white">
+            <h1 className="text-6xl md:text-7xl font-display font-bold mb-6 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
               StreamSell24
             </h1>
 
@@ -58,7 +58,7 @@ const Home = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-[hsl(var(--neon-primary))] text-black font-bold py-3 px-8 rounded-full text-lg neon-border"
+              className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-bold py-3 px-8 rounded-full text-lg shadow-glow hover:shadow-glow-lg transition-all duration-300"
             >
               Join the Future
             </motion.button>
@@ -70,7 +70,7 @@ const Home = () => {
           transition={{ duration: 2, repeat: Infinity }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >
-          <ChevronDown className="w-8 h-8 text-[hsl(var(--neon-primary))]" />
+          <ChevronDown className="w-8 h-8 text-primary-400" />
         </motion.div>
       </div>
 
@@ -83,7 +83,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="max-w-3xl mx-auto text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-6 text-glow">About StreamsSell</h2>
+            <h2 className="text-4xl font-display font-bold mb-6 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">About StreamsSell</h2>
             <p className="text-lg text-gray-300">
               StreamsSell combines cutting-edge AI technology with blockchain security to revolutionize
               the travel commerce industry. Our platform enables real-time, interactive travel experiences
@@ -96,7 +96,7 @@ const Home = () => {
       {/* Features Grid */}
       <div className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 text-glow">
+          <h2 className="text-4xl font-display font-bold text-center mb-16 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
             Powered by Future Tech
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -127,7 +127,7 @@ const Home = () => {
       {/* Featured Packages */}
       <div className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 text-glow">
+          <h2 className="text-4xl font-display font-bold text-center mb-16 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
             Featured Travel Packages
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -178,22 +178,22 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="flex-1"
             >
-              <h2 className="text-4xl font-bold mb-6 text-glow">Live Selling Revolution</h2>
+              <h2 className="text-4xl font-display font-bold mb-6 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">Live Selling Revolution</h2>
               <p className="text-lg text-gray-300 mb-6">
                 Transform your travel business with interactive live streams, real-time bookings,
                 and AI-powered engagement tools.
               </p>
               <div className="flex flex-wrap gap-4">
                 <div className="flex items-center gap-2">
-                  <Shield className="w-6 h-6 text-[hsl(var(--neon-primary))]" />
+                  <Shield className="w-6 h-6 text-primary-400" />
                   <span>Secure Payments</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-6 h-6 text-[hsl(var(--neon-primary))]" />
+                  <MapPin className="w-6 h-6 text-primary-400" />
                   <span>Geofencing</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Wallet className="w-6 h-6 text-[hsl(var(--neon-primary))]" />
+                  <Wallet className="w-6 h-6 text-primary-400" />
                   <span>Smart Contracts</span>
                 </div>
               </div>
@@ -207,7 +207,7 @@ const Home = () => {
               <img
                 src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
                 alt="Future Technology"
-                className="rounded-xl shadow-2xl"
+                className="rounded-xl shadow-glow"
               />
             </motion.div>
           </div>
@@ -217,7 +217,7 @@ const Home = () => {
       {/* Tech Stack */}
       <div className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 text-glow">
+          <h2 className="text-4xl font-display font-bold text-center mb-16 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
             Powered By Advanced Technology
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
@@ -234,7 +234,7 @@ const Home = () => {
       {/* Testimonials */}
       <div className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 text-glow">
+          <h2 className="text-4xl font-display font-bold text-center mb-16 bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent">
             What Our Customers Say
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -248,16 +248,16 @@ const Home = () => {
             <TestimonialCard
               name="James Wilson"
               role="CEO"
-              company="TechTravel Inc"
-              image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80"
-              content="The blockchain integration provides unprecedented security and transparency. Our customers love the smart contract feature."
+              company="Tech Travel"
+              image="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+              content="The blockchain integration has made our transactions more secure and transparent. Our customers love the smart contract features."
             />
             <TestimonialCard
-              name="Elena Rodriguez"
-              role="Innovation Lead"
-              company="Future Tours"
+              name="Maria Garcia"
+              role="Travel Agent"
+              company="Luxury Escapes"
               image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80"
-              content="The quantum pricing model has optimized our revenue while providing competitive rates to our customers. Simply amazing!"
+              content="The live selling features have transformed our business. We can now showcase properties in real-time with interactive elements."
             />
           </div>
         </div>
