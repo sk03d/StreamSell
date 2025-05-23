@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/common/PrivateRoute';
 import UserDashboard from './pages/UserDashboard';
 import OrgDashboard from './pages/OrgDashboard';
+import LiveStream from './pages/LiveStream';
 
 const App = () => {
   return (
@@ -43,6 +44,16 @@ const App = () => {
               <PrivateRoute>
                 <Layout>
                   <OrgDashboard />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/stream/live"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <LiveStream />
                 </Layout>
               </PrivateRoute>
             }
